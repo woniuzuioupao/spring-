@@ -1,0 +1,91 @@
+﻿package com.ziytek.taozhu.service;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
+import com.ziytek.taozhu.base.entity.BaseEntity;
+import com.ziytek.taozhu.base.util.JsonUtil;
+import org.springframework.beans.BeanUtils;
+
+import java.lang.reflect.Field;
+import java.util.*;
+
+/**
+ * Created by Administrator on 2017/10/10 0010.
+ * 关于json对时间处理
+ * @JSONField(format = "yyyy-MM-dd hh:mm")
+ */
+public class Test {
+    public static void main(String[] args) {
+        D d=new D();
+        d.setName("张三");
+        d.setTime(1213132546);
+        String req=JSON.toJSONString(d,true);
+        E e=JSON.parseObject(req,E.class);
+        String res=JSON.toJSONString(e,true);
+        System.out.print(res);
+
+    }
+}
+
+class D{
+    String name;
+    //long,Date,string都行
+    //若为string类型，只能是两种格式
+    //1."2012-12-12" 
+    //2."2012-12-12 12:12:12"
+    int time;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+}
+class E{
+    String name;
+    //格式多样
+    //1.format = "yyyy-MM-dd"
+    //2.format = "yyyy-MM"
+    //3.format = "yyyy-MM-dd hh:mm:ss"
+    //4.format = "yyyy-MM-dd hh:mm"
+    //......
+    @JSONField(format = "yyyy-MM-dd hh:mm")
+    Date time;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "E{" +
+                "name='" + name + '\'' +
+                ", time=" + time +
+                '}';
+    }
+}
+
